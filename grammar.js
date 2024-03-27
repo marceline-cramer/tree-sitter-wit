@@ -90,7 +90,11 @@ module.exports = grammar({
 
     include_names_item: $ => seq($.ident, "as", $.ident),
 
-    interface_item: $ => seq("interface", $.ident, "{", repeat($.interface_items), "}"),
+    interface_item: $ => seq(
+      "interface",
+      field("name", $.ident),
+      "{", repeat($.interface_items), "}"
+    ),
 
     interface_items: $ => choice($.typedef_item, $.use_item, $.func_item),
 
@@ -159,8 +163,11 @@ module.exports = grammar({
       seq($.record_field, ",", optional($.record_fields))
     ),
 
-    // TODO highlight fields?
-    record_field: $ => seq( $.ident, ":", $.ty),
+    record_field: $ => seq(
+      field("name", $.ident),
+      ":",
+      $.ty
+    ),
 
     flags_items: $ => seq(
       "flags",
@@ -177,7 +184,11 @@ module.exports = grammar({
     ),
 
     // TODO highlight fields
-    variant_item: $ => seq("variant", $.ident, "{", $.variant_cases, "}"),
+    variant_item: $ => seq(
+      "variant",
+      field("name", $.ident),
+      "{", $.variant_cases, "}"
+    ),
 
     // TODO csl
     variant_cases: $ => choice(
@@ -185,14 +196,16 @@ module.exports = grammar({
       seq($.variant_case, ",", optional($.variant_cases)),
     ),
 
-    // TODO highlight fields
     variant_case: $ => seq(
-      $.ident,
+      field("name", $.ident),
       optional(seq("(", $.ty, ")"))
     ),
 
-    // TODO highlight fields
-    enum_items: $ => seq("enum", $.ident, "{", $.enum_cases, "}"),
+    enum_items: $ => seq(
+      "enum",
+      field("name", $.ident),
+      "{", $.enum_cases, "}"
+    ),
 
     enum_cases: $ => choice(
       $.ident,
@@ -214,8 +227,13 @@ module.exports = grammar({
       $.constructor
     ),
 
-    // TODO highlight
-    static_method: $ => seq($.ident, ":", "static", $.func_type, ";"),
+    static_method: $ => seq(
+      field("name", $.ident),
+      ":",
+      "static",
+      $.func_type,
+      ";"
+    ),
 
     // TODO highlight
     constructor: $ => seq("constructor", $.param_list, ";"),
