@@ -1,12 +1,12 @@
 (line_comment) @comment.line
 (block_comment) @comment.block
 
-; TODO different scopes for import and export names?
-
 (package_decl namespace: (ident) @module)
 (package_decl package: (ident) @module)
 (use_path (ident) @module)
 (world_item name: (ident) @module)
+(export_item (ident) @module)
+(import_item (ident) @module)
 (interface_item name: (ident) @module)
 (func_item name: (ident) @function)
 (named_type name: (ident) @variable.parameter)

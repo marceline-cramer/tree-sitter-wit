@@ -235,7 +235,6 @@ module.exports = grammar({
       ";"
     ),
 
-    // TODO highlight
     constructor: $ => seq("constructor", $.param_list, ";"),
 
     ty: $ => choice(

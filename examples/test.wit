@@ -1,0 +1,19 @@
+package stuff:yeah;
+
+interface interface-stuff {
+  resource my-resource {
+    constructor();
+    a-method: func() -> tuple<string, bool, s32>;
+  }
+}
+
+interface exported-interface {
+  use interface-stuff.{my-resource};
+
+  yknow: func() -> my-resource;
+}
+
+world my-world {
+  import interface-stuff;
+  export exported-interface;
+}
