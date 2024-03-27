@@ -1,28 +1,34 @@
 (line_comment) @comment.line
 (block_comment) @comment.block
-(ty (ident) @type)
 
-(item_type name: (ident) @type)
-(item_record name: (ident) @type)
-(item_variant name: (ident) @type)
-(item_flags name: (ident) @type)
-(item_enum name: (ident) @type)
-(item_union name: (ident) @type)
-(item_resource name: (ident) @type)
+; TODO different scopes for import and export names?
 
-(item_use from: (ident) @namespace)
-(use_item name: (ident) @type)
-(item_func name: (ident) @function)
-(method name: (ident) @function.method)
-(fields (named_ty name: (ident) @variable.other.member))
-(input (args (named_ty name: (ident) @variable.parameter)))
-(output (args (named_ty name: (ident) @variable.other.member)))
-(flags (ident) @constant)
-(enum_items (ident) @constant)
-(variant_item tag: (ident) @type.enum.variant)
+(package_decl namespace: (ident) @module)
+(package_decl package: (ident) @module)
+(use_path (ident) @module)
+(world_item name: (ident) @module)
+(interface_item name: (ident) @module)
+(func_item name: (ident) @function)
+(named_type name: (ident) @variable.parameter)
+(use_names_item (ident) @type)
+(type_item name: (ident) @type)
+(record_item name: (ident) @type)
+(record_field name: (ident) @variable.other.member)
+(flags_items name: (ident) @type)
+(flags_fields (ident) @constant)
+(variant_item name: (ident) @type.enum)
+(variant_case name: (ident) @constructor)
+(enum_items name: (ident) @type.enum)
+(enum_cases (ident) @constant)
+(resource_item name: (ident) @type)
+(ty) @type
+(handle (ident) @type)
+
+[ "constructor" ] @constructor
 
 [
-  (unit)
+  ; TODO add unit type ("_") into grammar
+  ; (unit)
 
   "u8" "u16" "u32" "u64"
   "s8" "s16" "s32" "s64"
@@ -35,20 +41,23 @@
   "option"
   "result"
   "tuple"
-  "future"
-  "stream"
+  "borrow"
 ] @function.macro
 
-[ "," ":" ] @punctuation.delimiter
+[ "." "," ":" ";" ] @punctuation.delimiter
 [ "(" ")" "{" "}" "<" ">" ] @punctuation.bracket
 [ "=" "->" ] @operator
+
+[
+  "world"
+  "interface"
+] @keyword
 
 [
   "record"
   "flags"
   "variant"
   "enum"
-  "union"
   "type"
   "resource"
 ] @keyword.storage.type
@@ -60,8 +69,11 @@
 ] @keyword.storage.modifier
 
 [
-  (star)
+  ; TODO add star ("*") into grammar
+  ; (star)
   "use"
   "as"
-  "from"
+  "package"
+  "export"
+  "import"
 ] @keyword.control.import
