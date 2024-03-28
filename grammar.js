@@ -116,7 +116,7 @@ module.exports = grammar({
 
     func_type: $ => seq("func", $.param_list, optional($.result_list)),
 
-    param_list: $ => seq("(", $.named_type_list, ")"),
+    param_list: $ => seq("(", optional($.named_type_list), ")"),
 
     result_list: $ => choice(
       seq("->", $.ty),
