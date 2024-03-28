@@ -70,7 +70,7 @@ module.exports = grammar({
 
     import_item: $ => choice(
       seq("import", $.ident, ":", $.extern_type),
-      seq("import", $.use_path),
+      seq("import", $.use_path, ";"),
     ),
 
     extern_type: $ => choice(
