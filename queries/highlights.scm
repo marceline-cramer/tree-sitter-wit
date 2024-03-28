@@ -1,8 +1,10 @@
 (line_comment) @comment.line
 (block_comment) @comment.block
 
+(integer) @constant.numeric
 (package_decl namespace: (ident) @module)
 (package_decl package: (ident) @module)
+(package_decl ":" @operator)
 (use_path (ident) @module)
 (world_item name: (ident) @module)
 (export_item (ident) @module)
@@ -46,7 +48,7 @@
 
 [ "." "," ":" ";" ] @punctuation.delimiter
 [ "(" ")" "{" "}" "<" ">" ] @punctuation.bracket
-[ "=" "->" ] @operator
+[ "@" "=" "->" ] @operator
 
 [
   "world"

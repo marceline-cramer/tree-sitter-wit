@@ -29,7 +29,7 @@ module.exports = grammar({
 
     // keywords go here
 
-    integer: _ => /[1-9][0-9]*/,
+    integer: _ => choice("0", /[1-9][0-9]*/),
 
     package_decl: $ => seq(
       "package",

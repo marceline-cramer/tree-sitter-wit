@@ -1,4 +1,4 @@
-package stuff:yeah;
+package stuff:yeah@0.1.0;
 
 interface interface-stuff {
   resource my-resource {
