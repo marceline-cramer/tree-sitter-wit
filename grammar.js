@@ -114,19 +114,18 @@ module.exports = grammar({
       ";"
     ),
 
-    func_type: $ => seq("func", $.param_list, $.result_list),
+    func_type: $ => seq("func", $.param_list, optional($.result_list)),
 
     param_list: $ => seq("(", $.named_type_list, ")"),
 
     result_list: $ => choice(
-      "",
       seq("->", $.ty),
       seq("->", "(", $.named_type_list, ")")
     ),
 
-    named_type_list: $ => choice(
-      "",
-      seq($.named_type, repeat(seq(",", $.named_type))),
+    named_type_list: $ => seq(
+      $.named_type,
+      repeat(seq(",", $.named_type)),
     ),
 
     named_type: $ => seq(field("name", $.ident), ":", field("ty", $.ty)),
@@ -265,12 +264,11 @@ module.exports = grammar({
 
     option: $ => seq("option", $.tp1),
 
-    result: $ => seq("result", choice(
+    result: $ => seq("result", optional(choice(
       seq("<", $.ty, ",", $.ty, ">"),
       seq("<", "_", ",", $.ty, ">"),
       $.tp1,
-      ""
-    )),
+    ))),
 
     handle: $ => choice(
       $.ident,
