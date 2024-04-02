@@ -78,4 +78,5 @@
   "package"
   "export"
   "import"
+  "include"
 ] @keyword.control.import
