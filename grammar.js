@@ -8,6 +8,9 @@
 
 const csl0 = rule => optional(csl1(rule));*/
 
+// semicolons aren't *technically* necessary for backwards-compatibility sake
+const semi = optional(";");
+
 module.exports = grammar({
   name: "wit",
 
@@ -37,7 +40,7 @@ module.exports = grammar({
       ":",
       field("package", $.ident),
       optional(seq("@", $.semver)),
-      ";"
+      semi
     ),
 
     semver: $ => seq($.integer, ".", $.integer, ".", $.integer),
@@ -46,7 +49,7 @@ module.exports = grammar({
       "use",
       $.use_path,
       optional(seq("as", $.ident)),
-      ";"
+      semi
     ),
 
     use_path: $ => choice(
@@ -65,21 +68,21 @@ module.exports = grammar({
 
     export_item: $ => choice(
       seq("export", $.ident, ":", $.extern_type),
-      seq("export", $.use_path, ";")
+      seq("export", $.use_path, semi)
     ),
 
     import_item: $ => choice(
       seq("import", $.ident, ":", $.extern_type),
-      seq("import", $.use_path, ";"),
+      seq("import", $.use_path, semi),
     ),
 
     extern_type: $ => choice(
-      seq($.func_type, ";"),
+      seq($.func_type, semi),
       seq("interface", "{", repeat($.interface_items), "}")
     ),
 
     include_item: $ => choice(
-      seq("include", $.use_path, ";"),
+      seq("include", $.use_path, semi),
       seq("include", $.use_path, "with", "{", $.include_names_list, "}")
     ),
 
@@ -111,7 +114,7 @@ module.exports = grammar({
       field("name", $.ident),
       ":",
       $.func_type,
-      ";"
+      semi
     ),
 
     func_type: $ => seq("func", $.param_list, optional($.result_list)),
@@ -130,7 +133,7 @@ module.exports = grammar({
 
     named_type: $ => seq(field("name", $.ident), ":", field("ty", $.ty)),
 
-    use_item: $ => seq("use", $.use_path, ".", "{", $.use_names_list, "}", ";"),
+    use_item: $ => seq("use", $.use_path, ".", "{", $.use_names_list, "}", semi),
 
     // TODO comma-separated list shortcut here?
     use_names_list: $ => choice(
@@ -146,7 +149,7 @@ module.exports = grammar({
       field("name", $.ident),
       "=",
       $.ty,
-      ";"
+      semi
     ),
 
     record_item: $ => seq(
@@ -215,7 +218,7 @@ module.exports = grammar({
       "resource",
       field("name", $.ident),
       choice(
-        ";",
+        semi,
         seq("{", repeat($.resource_method), "}")
       ),
     ),
@@ -231,10 +234,10 @@ module.exports = grammar({
       ":",
       "static",
       $.func_type,
-      ";"
+      semi
     ),
 
-    constructor: $ => seq("constructor", $.param_list, ";"),
+    constructor: $ => seq("constructor", $.param_list, semi),
 
     ty: $ => choice(
       "u8", "u16", "u32", "u64",
