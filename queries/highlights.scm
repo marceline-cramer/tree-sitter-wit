@@ -23,6 +23,7 @@
 (enum_items name: (ident) @type.enum)
 (enum_cases (ident) @constant)
 (resource_item name: (ident) @type)
+(static_method name: (ident) @function)
 (ty) @type
 (handle (ident) @type)
 
